@@ -17,6 +17,7 @@ public class Piece {
     public JChessPanel[][] panel;
     public ArrayList<Point> aviable_moves;
     public ArrayList<Point> prior_moves;
+    public String state = "alive";
 
 
     Piece(){
@@ -44,6 +45,7 @@ public class Piece {
 
     public void killed() {
         this.erase_from(this.panel,this.pos.y,this.pos.x);
+        this.state = "killed";
     }
 
     public void highlight_green(int y, int x){
