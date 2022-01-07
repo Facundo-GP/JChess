@@ -21,7 +21,7 @@ public class PieceListener implements MouseListener {
             JChessPanel temp = (JChessPanel) source;
             if (temp.object != null) 
             {
-                
+                System.out.println(temp.object);
                 if (choosing_move){
                     for (Point p : this.object_selected.child.aviable_moves) {
                         if (p.x == temp.gridx && p.y == temp.gridy){

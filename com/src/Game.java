@@ -51,8 +51,8 @@ public class Game{
             cont++;
         }
 
-        this.b_player.points = 0;
-        this.w_player.points = 0;
+        this.b_player.score = 0;
+        this.w_player.score = 0;
 
     } 
 

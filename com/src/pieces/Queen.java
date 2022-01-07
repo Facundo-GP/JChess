@@ -24,6 +24,7 @@ public class Queen extends Piece {
         super(color,path); 
         this.type = "Queen";
         this.child = this;
+        this.points = 9;
     }
 
     //Movments in Queen are Bishop's and Rook's mixed

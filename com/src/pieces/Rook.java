@@ -12,10 +12,12 @@ public class Rook extends Piece {
     public int My;
     public int my;
 
+
     public Rook(String color, String path) {
         super(color,path);
         this.type = "Rook";
         this.child = this;
+        this.points = 5;
     }
 
     public void show_moves(){

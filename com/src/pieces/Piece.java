@@ -18,6 +18,7 @@ public class Piece {
     public ArrayList<Point> aviable_moves;
     public ArrayList<Point> prior_moves;
     public String state = "alive";
+    public int points;
 
 
     Piece(){

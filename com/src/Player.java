@@ -12,7 +12,8 @@ public class Player extends IconPaths{
     public ArrayList<Piece> pieces = new ArrayList<Piece>();
     public String name;
     public String color;
-    public int points;
+    public int score;
+    public String state;
 
     private void set_pieces(){
 
@@ -35,6 +36,8 @@ public class Player extends IconPaths{
             pieces.add(new Pawn(this.color,this.paths[3]));
             pieces.add(new Pawn(this.color,this.paths[3]));
             pieces.add(new Pawn(this.color,this.paths[3])); 
+            
+            this.state = "Waiting";
         }
 
         else {
@@ -55,7 +58,9 @@ public class Player extends IconPaths{
             pieces.add(new Pawn(this.color,this.paths[9]));
             pieces.add(new Pawn(this.color,this.paths[9]));
             pieces.add(new Pawn(this.color,this.paths[9]));
-            pieces.add(new Pawn(this.color,this.paths[9])); 
+            pieces.add(new Pawn(this.color,this.paths[9]));
+            
+            this.state = "Playing";
 
         }
     
@@ -65,7 +70,7 @@ public class Player extends IconPaths{
     public Player(String name, String color){
         this.name = name;
         this.color = color;
-        this.points = 0;
+        this.score = 0;
         this.set_pieces();
     }
 

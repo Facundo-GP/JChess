@@ -19,7 +19,7 @@ public class PlayerInfo extends JLabel{
             gbcnt.ipady = 40;
         }
 
-        this.setText(name + "                   Points: "+this.player.points);
+        this.setText(name + "                   Score: "+this.player.score);
         this.setFont(new Font("Sans", Font.BOLD, 24));
 
     }
