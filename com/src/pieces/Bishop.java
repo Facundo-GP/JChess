@@ -17,6 +17,7 @@ public class Bishop extends Piece {
         super(color,path);
         this.type = "Bishop";
         this.child = this;
+        this.points = 3;
     }
 
     private void build_priors(){

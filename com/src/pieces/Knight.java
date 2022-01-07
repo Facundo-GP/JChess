@@ -10,6 +10,7 @@ public class Knight extends Piece {
         super(color,path);
         this.type = "Knight";
         this.child = this;
+        this.points=3;
     }
 
 

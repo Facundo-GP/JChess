@@ -10,6 +10,7 @@ public class Pawn extends Piece {
         super(color,path);
         this.type = "Pawn";
         this.child = this;
+        this.points=1;
     }
 
     
