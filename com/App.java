@@ -1,5 +1,4 @@
 package com;
-
 import com.GUI.Game;
 
 public class App {
