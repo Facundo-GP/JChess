@@ -1,7 +1,7 @@
 # JChess
 Chess game implemented in Java.
 
-![G1](https://drive.google.com/file/d/1CqQ_e1lITk3p_pZK8pYDRtGzWWa1HngJ/view?usp=sharing)
+![G1](https://drive.google.com/file/d/1CqQ_e1lITk3p_pZK8pYDRtGzWWa1HngJ)
 
 ![G2](https://drive.google.com/file/d/1NqvGJFkOTU73RGlIUb4Pu9gRxwYJCEIE/view?usp=sharing)
 
