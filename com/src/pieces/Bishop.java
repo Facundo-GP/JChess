@@ -13,15 +13,16 @@ public class Bishop extends Piece {
 
     
 
-    public Bishop(String color, String path) {
-        super(color,path);
-        this.type = "Bishop";
-        this.child = this;
-        this.points = 3;
+    public Bishop(String Color, String path) {
+        super(Color,path);
+        this.Type = "Bishop";
+        this.Points = 3;
     }
 
-    private void build_priors(){
+    public void BuildPriors(){
 
+        this.PriorMoves = new ArrayList<Point>();
+        this.AvailableMoves = new ArrayList<Point>();
     
         this.ru = 8;
         this.rd = 8;
@@ -32,34 +33,34 @@ public class Bishop extends Piece {
 
         for (int i = 1; i <= 7; i++){
             
-            if (this.pos.x+i <= 7 && this.pos.y+i <= 7 && this.panel[this.pos.y+i][this.pos.x+i].object != null){
-               if (this.pos.x+i < this.rd){
-                   this.rd = this.pos.x+i;
+            if (this.Pos.x+i <= 7 && this.Pos.y+i <= 7 && this.Panel[this.Pos.y+i][this.Pos.x+i].Piece != null){
+               if (this.Pos.x+i < this.rd){
+                   this.rd = this.Pos.x+i;
                }       
             }
         
-            if (this.pos.x+i <= 7 && this.pos.y-i >= 0 && this.panel[this.pos.y-i][this.pos.x+i].object != null){
-                if (this.pos.x+i < this.ru){
-                    this.ru = this.pos.x+i;
+            if (this.Pos.x+i <= 7 && this.Pos.y-i >= 0 && this.Panel[this.Pos.y-i][this.Pos.x+i].Piece != null){
+                if (this.Pos.x+i < this.ru){
+                    this.ru = this.Pos.x+i;
                 } 
              }
 
-             if (this.pos.x-i >= 0 && this.pos.y+i <= 7 && this.panel[this.pos.y+i][this.pos.x-i].object != null){
-                if (this.pos.x-i > this.ld){
-                    this.ld = this.pos.x-i;
+             if (this.Pos.x-i >= 0 && this.Pos.y+i <= 7 && this.Panel[this.Pos.y+i][this.Pos.x-i].Piece != null){
+                if (this.Pos.x-i > this.ld){
+                    this.ld = this.Pos.x-i;
                 }   
              }
 
-             if (this.pos.x-i >= 0 && this.pos.y-i >= 0 && this.panel[this.pos.y-i][this.pos.x-i].object != null){
-                if (this.pos.x-i > this.lu){
-                    this.lu = this.pos.x-i;
+             if (this.Pos.x-i >= 0 && this.Pos.y-i >= 0 && this.Panel[this.Pos.y-i][this.Pos.x-i].Piece != null){
+                if (this.Pos.x-i > this.lu){
+                    this.lu = this.Pos.x-i;
                 }
              }
 
-             this.prior_moves.add(new Point(this.pos.y+i,this.pos.x+i));
-             this.prior_moves.add(new Point(this.pos.y-i,this.pos.x+i));
-             this.prior_moves.add(new Point(this.pos.y+i,this.pos.x-i));
-             this.prior_moves.add(new Point(this.pos.y-i,this.pos.x-i));
+             this.PriorMoves.add(new Point(this.Pos.y+i,this.Pos.x+i));
+             this.PriorMoves.add(new Point(this.Pos.y-i,this.Pos.x+i));
+             this.PriorMoves.add(new Point(this.Pos.y+i,this.Pos.x-i));
+             this.PriorMoves.add(new Point(this.Pos.y-i,this.Pos.x-i));
         }
 
         if (this.ru == 8){
@@ -77,80 +78,100 @@ public class Bishop extends Piece {
 
     }
 
-    private void build_aviables(){
-        
-        for (Point p : this.prior_moves) {
+    public void BuildAvailables(){
+        this.Check = false;
+        for (Point p : this.PriorMoves) {
             if (p.x < 8 && p.x >= 0 && p.y < 8 && p.y >= 0){
-                //Moves only if there is not a piece of the same color and type is not King
-                if (((this.panel[p.y][p.x].object != null && 
-                    (this.panel[p.y][p.x].object.child.color != this.color) &&
-                     this.panel[p.y][p.x].object.child.type != "King") 
-                    || (this.panel[p.y][p.x].object == null))) {
+                //Moves only if there is not a Piece of the same Color and Type is not King
+                if ((this.Panel[p.y][p.x].Piece != null && 
+                    (this.Panel[p.y][p.x].Piece.Color != this.Color) 
+                    || (this.Panel[p.y][p.x].Piece == null))) {
 
         
-                        if (p.x > this.pos.x && p.y > this.pos.y && p.x <= this.rd){ 
+                        if (p.x > this.Pos.x && p.y > this.Pos.y && p.x <= this.rd){ 
                             
-                            if (this.panel[p.y][p.x] != null && p.x == this.rd && 
-                               this.panel[p.y][p.x].object.child.color != this.color){
-                                this.highlight_green(p.y,p.x);
-                                this.aviable_moves.add(p);
+                            if (this.Panel[p.y][p.x].Piece != null && 
+                                this.Panel[p.y][p.x].Piece.Color != this.Color &&
+                                this.Panel[p.y][p.x].Piece.Type == "King"){
+                                this.Check = true;
                             }
-                            else if (p.x != this.rd){
-                                this.highlight_green(p.y,p.x);
-                                this.aviable_moves.add(p);
+
+                            else {
+                                if (this.Panel[p.y][p.x] != null && p.x == this.rd && 
+                                    this.Panel[p.y][p.x].Piece.Color != this.Color){
+                                    this.AvailableMoves.add(p);
+                                }
+                                else if (p.x != this.rd){
+                                    this.AvailableMoves.add(p);
+                                }
                             }
                         }
 
-                        if (p.x > this.pos.x && p.y < this.pos.y && p.x <= this.ru){
+                        if (p.x > this.Pos.x && p.y < this.Pos.y && p.x <= this.ru){
                             
-                            if (this.panel[p.y][p.x] != null && p.x == this.ru && 
-                                this.panel[p.y][p.x].object.child.color != this.color){
-                                this.highlight_green(p.y,p.x);
-                                this.aviable_moves.add(p);
+                            if (this.Panel[p.y][p.x].Piece != null && 
+                                this.Panel[p.y][p.x].Piece.Color != this.Color &&
+                                this.Panel[p.y][p.x].Piece.Type == "King"){
+                                this.Check = true;
                             }
-                            else if (p.x != this.ru){
-                                this.highlight_green(p.y,p.x);
-                                this.aviable_moves.add(p);
+                            else {
+                                if (this.Panel[p.y][p.x] != null && p.x == this.ru && 
+                                    this.Panel[p.y][p.x].Piece.Color != this.Color){
+                                    this.AvailableMoves.add(p);
+                                }
+                                else if (p.x != this.ru){
+                                    this.AvailableMoves.add(p);
+                                }
                             }
                         }
 
-                        if (p.x < this.pos.x && p.y > this.pos.y && p.x >= this.ld){
+                        if (p.x < this.Pos.x && p.y > this.Pos.y && p.x >= this.ld){
                             
-                            if (this.panel[p.y][p.x] != null && p.x == this.ld && 
-                                this.panel[p.y][p.x].object.child.color != this.color){
-                                this.highlight_green(p.y,p.x);
-                                this.aviable_moves.add(p);
+                            if (this.Panel[p.y][p.x].Piece != null && 
+                                this.Panel[p.y][p.x].Piece.Color != this.Color &&
+                                this.Panel[p.y][p.x].Piece.Type == "King"){
+                                this.Check = true;
                             }
-                            else if (p.x != this.ld){
-                                this.highlight_green(p.y,p.x);
-                                this.aviable_moves.add(p);
+                            else {
+
+                                if (this.Panel[p.y][p.x] != null && p.x == this.ld && 
+                                    this.Panel[p.y][p.x].Piece.Color != this.Color){
+                                    this.AvailableMoves.add(p);
+                                }
+                                else if (p.x != this.ld){
+                                    this.AvailableMoves.add(p);
+                                }
                             }
                         }
 
-                        if (p.x < this.pos.x && p.y < this.pos.y && p.x >= this.lu){
+                        if (p.x < this.Pos.x && p.y < this.Pos.y && p.x >= this.lu){
                             
-                            if (this.panel[p.y][p.x] != null && p.x == this.lu && 
-                            this.panel[p.y][p.x].object.child.color != this.color){
-                                this.highlight_green(p.y,p.x);
-                                this.aviable_moves.add(p);
+                            if (this.Panel[p.y][p.x].Piece != null && 
+                                this.Panel[p.y][p.x].Piece.Color != this.Color &&
+                                this.Panel[p.y][p.x].Piece.Type == "King"){
+                                this.Check = true;
                             }
-                            else if (p.x != this.lu){
-                                this.highlight_green(p.y,p.x);
-                                this.aviable_moves.add(p);
+                            else {
+
+                                if (this.Panel[p.y][p.x] != null && p.x == this.lu && 
+                                    this.Panel[p.y][p.x].Piece.Color != this.Color){
+                                    this.AvailableMoves.add(p);
+                                }
+                                else if (p.x != this.lu){
+                                    this.AvailableMoves.add(p);
+                                }
                             }   
                         }
-                }       
+                }     
             }
         }
     }
 
-    public void show_moves(){
+    public void ShowMoves(){
         
-        this.prior_moves = new ArrayList<Point>();
-        this.aviable_moves = new ArrayList<Point>();
-
-        this.build_priors();
-        this.build_aviables();
+        this.BuildPriors();
+        this.BuildAvailables();
+        this.ShowAvailables();
         
     }
 
