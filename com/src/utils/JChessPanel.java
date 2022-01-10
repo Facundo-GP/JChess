@@ -3,8 +3,12 @@ import javax.swing.*;
 import com.src.*;
 import com.src.pieces.Piece;
 
+
+//Custom JPanel with info of players
 public class JChessPanel extends JPanel {
-    public Piece object;
-    public int gridx;
-    public int gridy;
+    
+    public Piece Piece;
+    public Player Player;
+    public int Gridx;
+    public int Gridy;
 }

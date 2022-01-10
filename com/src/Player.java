@@ -1,78 +1,99 @@
 package com.src;
 
 import com.src.pieces.*;
-import com.src.utils.Point;
-import com.GUI.IconPaths;
-import javax.swing.*;
-import java.awt.event.*;
+import com.GUI.components.PlayerInfo;
+import com.GUI.utils.IconPaths;
+
 import java.util.ArrayList;
 
+//Player class, handles state of player and his info
 public class Player extends IconPaths{
 
-    public ArrayList<Piece> pieces = new ArrayList<Piece>();
-    public String name;
-    public String color;
-    public int score;
-    public String state;
+    //Pieces of player
+    public ArrayList<Piece> Pieces = new ArrayList<Piece>();
+    
+    //General info
+    private String Color;
+    public int Score;
+    public PlayerInfo Info;
+    
+    //Game that player is playing
+    public Match Game;
+    
+    //Opponent info
+    public Player Opponent;
+    public Piece OpponentKing;
+    
+    //Player states
+    public Boolean InCheck;
+    public String State;
 
-    private void set_pieces(){
 
-        if (this.color == "black"){
+    //Assign pieces to player
+    private void setPieces(){
+
+        if (this.Color == "black"){
             
-            pieces.add(new Rook(this.color,this.paths[5]));
-            pieces.add(new Knight(this.color,this.paths[2]));
-            pieces.add(new Bishop(this.color,this.paths[0]));
-            pieces.add(new Queen(this.color,this.paths[4]));
-            pieces.add(new King(this.color,this.paths[1]));
-            pieces.add(new Bishop(this.color,this.paths[0]));
-            pieces.add(new Knight(this.color,this.paths[2]));
-            pieces.add(new Rook(this.color,this.paths[5]));
+            this.Pieces.add(new Rook(this.Color,this.Paths[5]));
+            this.Pieces.add(new Knight(this.Color,this.Paths[2]));
+            this.Pieces.add(new Bishop(this.Color,this.Paths[0]));
+            this.Pieces.add(new Queen(this.Color,this.Paths[4]));
+            this.Pieces.add(new King(this.Color,this.Paths[1]));
+            this.Pieces.add(new Bishop(this.Color,this.Paths[0]));
+            this.Pieces.add(new Knight(this.Color,this.Paths[2]));
+            this.Pieces.add(new Rook(this.Color,this.Paths[5]));
 
-            pieces.add(new Pawn(this.color,this.paths[3]));
-            pieces.add(new Pawn(this.color,this.paths[3]));
-            pieces.add(new Pawn(this.color,this.paths[3]));
-            pieces.add(new Pawn(this.color,this.paths[3]));
-            pieces.add(new Pawn(this.color,this.paths[3]));
-            pieces.add(new Pawn(this.color,this.paths[3]));
-            pieces.add(new Pawn(this.color,this.paths[3]));
-            pieces.add(new Pawn(this.color,this.paths[3])); 
+            this.Pieces.add(new Pawn(this.Color,this.Paths[3]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[3]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[3]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[3]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[3]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[3]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[3]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[3]));
+
+            for (Piece p : this.Pieces){
+                p.Player = this;
+            } 
             
-            this.state = "Waiting";
+            this.State = "Waiting";
         }
 
         else {
 
-            pieces.add(new Rook(this.color,this.paths[11]));
-            pieces.add(new Knight(this.color,this.paths[8]));
-            pieces.add(new Bishop(this.color,this.paths[6]));
-            pieces.add(new Queen(this.color,this.paths[10]));
-            pieces.add(new King(this.color,this.paths[7]));
-            pieces.add(new Bishop(this.color,this.paths[6]));
-            pieces.add(new Knight(this.color,this.paths[8]));
-            pieces.add(new Rook(this.color,this.paths[11]));
+            this.Pieces.add(new Rook(this.Color,this.Paths[11]));
+            this.Pieces.add(new Knight(this.Color,this.Paths[8]));
+            this.Pieces.add(new Bishop(this.Color,this.Paths[6]));
+            this.Pieces.add(new Queen(this.Color,this.Paths[10]));
+            this.Pieces.add(new King(this.Color,this.Paths[7]));
+            this.Pieces.add(new Bishop(this.Color,this.Paths[6]));
+            this.Pieces.add(new Knight(this.Color,this.Paths[8]));
+            this.Pieces.add(new Rook(this.Color,this.Paths[11]));
 
-            pieces.add(new Pawn(this.color,this.paths[9]));
-            pieces.add(new Pawn(this.color,this.paths[9]));
-            pieces.add(new Pawn(this.color,this.paths[9]));
-            pieces.add(new Pawn(this.color,this.paths[9]));
-            pieces.add(new Pawn(this.color,this.paths[9]));
-            pieces.add(new Pawn(this.color,this.paths[9]));
-            pieces.add(new Pawn(this.color,this.paths[9]));
-            pieces.add(new Pawn(this.color,this.paths[9]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[9]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[9]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[9]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[9]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[9]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[9]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[9]));
+            this.Pieces.add(new Pawn(this.Color,this.Paths[9]));
             
-            this.state = "Playing";
+
+            for (Piece p : this.Pieces){
+                p.Player = this;
+            } 
+            this.State = "Playing";
 
         }
     
     }
 
-
-    public Player(String name, String color){
-        this.name = name;
-        this.color = color;
-        this.score = 0;
-        this.set_pieces();
+    //Sets player general info
+    public Player(String color){
+        this.Color = color;
+        this.Score = 0;
+        this.setPieces();
     }
-
 
 }

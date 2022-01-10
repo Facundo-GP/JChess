@@ -1,8 +1,8 @@
-package com.GUI;
+package com.GUI.utils;
 
 public class IconPaths {
     
-    public String[] paths = {"/com/GUI/assets/b_bishop.png",
+    public String[] Paths = {"/com/GUI/assets/b_bishop.png",
                             "/com/GUI/assets/b_king.png",
                             "/com/GUI/assets/b_knight.png",
                             "/com/GUI/assets/b_pawn.png",

@@ -7,58 +7,73 @@ import com.src.utils.PieceListener;
 import com.src.utils.JChessPanel;
 
 
+//Board class, implements graphical features of board and Listeners for click on pieces
 
+public class Board extends JPanel{ 
 
-public class Board extends JPanel {
-
-
-    public JChessPanel[][] table = new JChessPanel[8][8];
+    //Board of the match
+    public JChessPanel[][] Boxes = new JChessPanel[8][8];
     
-    private void set_board(Player b_player, Player w_player){
+    //Listener to piece actions
+    public PieceListener PieceListener;
 
-         //black pieces
+    //Draws images for all pieces in the board
+    private void setBoard(Player BlackPlayer, Player WhitePlayer){
+
+         //Black pieces
         for (int i = 0; i <= 15; i++){
-            b_player.pieces.get(i).draw_in(table,(i / 8), i % 8);
+            BlackPlayer.Pieces.get(i).DrawIn(Boxes,(i / 8), i % 8);
+            Boxes[i/8][i%8].Player = BlackPlayer; 
         }
       
-        //white pieces
+        //White pieces
         for (int i = 0; i <= 15; i++){
-            w_player.pieces.get(i).draw_in(table,7 - (i / 8), i % 8);
-
+            WhitePlayer.Pieces.get(i).DrawIn(Boxes,7 - (i / 8), i % 8);
+            Boxes[7 - (i / 8)][i%8].Player = WhitePlayer;
         }
         
     }
     
-    public Board(Player b_player, Player w_player){
+    //Draws the board (background and squares)
+    public Board(Player BlackPlayer, Player WhitePlayer){
 
+        //Layout
 		setLayout(new GridBagLayout());
-        PieceListener listener = new PieceListener();
+        
+        //Listener for pieces
+        this.PieceListener = new PieceListener();
+        this.PieceListener.Board = this;
        
-   
+        //Draw squares
         for (int j = 0; j < 8; j++){
             for (int k = 0; k < 8; k++){
-                table[j][k] = new JChessPanel();
-                table[j][k].setPreferredSize( new Dimension(60,60));
+                Boxes[j][k] = new JChessPanel();
+                Boxes[j][k].setPreferredSize( new Dimension(60,60));
                 if ((j+k) % 2 == 0){
-                    table[j][k].setBackground(Color.GRAY); 
+                    Boxes[j][k].setBackground(Color.GRAY); 
                 }
                 else {
-                    table[j][k].setBackground(Color.LIGHT_GRAY);
+                    Boxes[j][k].setBackground(Color.LIGHT_GRAY);
                 }
-             
-                table[j][k].addMouseListener(listener);
-                GridBagConstraints c = new GridBagConstraints();
-                c.gridx=k;
-                c.gridy=j;
-                add(table[j][k], c);
-                table[j][k].gridy = j;
-                table[j][k].gridx = k;
-                table[j][k].setBorder(BorderFactory.createLineBorder(new Color(0,0,0)));
+                
+                //Adds listener to squares
+                Boxes[j][k].addMouseListener(this.PieceListener);
+                
+                //Constraints for each square layout
+                GridBagConstraints LayoutConstrains = new GridBagConstraints();
+                LayoutConstrains.gridx=k;
+                LayoutConstrains.gridy=j;
+                add(Boxes[j][k], LayoutConstrains);
+                Boxes[j][k].Gridy = j;
+                Boxes[j][k].Gridx = k;
+                Boxes[j][k].setBorder(BorderFactory.createLineBorder(new Color(0,0,0)));
                 
             }
                 
         }
-        this.set_board(b_player,w_player);
+
+        //Draws pieces images
+        this.setBoard(BlackPlayer,WhitePlayer);
     
 
     }

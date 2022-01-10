@@ -1,11 +1,11 @@
 package com;
 
-import com.GUI.GUI;
+import com.GUI.Game;
 
 public class App {
     
     public static void main(String[] args) {
-        GUI app = new GUI();
+        Game app = new Game();
         app.run();
     }    
 }
