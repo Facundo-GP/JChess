@@ -57,6 +57,13 @@ public class PieceListener implements MouseListener {
         PromotedPiece.Pos = PromotionPos;
         PromotedPiece.Panel = PromotionPanel;
         PromotedPiece.Player = PromotionPlayer;
+        int cont = 0;
+        for (Piece p : PromotedPiece.Player.Pieces){
+            if (p != this.Piece){
+                cont++;
+            }
+        }
+        PromotedPiece.Player.Pieces.set(cont,PromotedPiece);
         this.Piece = PromotedPiece;
         this.Piece.DrawIn(this.Piece.Panel, this.Piece.Pos.y, this.Piece.Pos.x);
         
@@ -178,25 +185,21 @@ public class PieceListener implements MouseListener {
                 if (this.ClickedPanel.Piece != null && this.ClickedPanel.Player.State == "Playing"){
                     this.CleanPaths();
                     this.Piece = this.ClickedPanel.Piece;
-                    this.ClickedPanel.Piece.ShowMoves();  
-                    System.out.println(this.Piece.Color);  
+                    this.ClickedPanel.Piece.ShowMoves();   
                 }
                 else{
                     for (Point p : this.Piece.AvailableMoves) {
                         if (p.x == this.ClickedPanel.Gridx && p.y == this.ClickedPanel.Gridy){
-                            
 
                             //Special case of pawn first movment
                             if ((p.y == 5 && this.Board.Boxes[p.y-1][p.x].Piece != null) ||
-                                (p.y == 2 && this.Board.Boxes[p.y+1][p.x].Piece != null)){
-                                
+                                (p.y == 2 && this.Board.Boxes[p.y+1][p.x].Piece != null)){ 
                                 if (this.LastPieceMoved == this.Board.Boxes[p.y+1][p.x].Piece ||
-                                    this.LastPieceMoved == this.Board.Boxes[p.y-1][p.x].Piece){
-                                        
+                                    this.LastPieceMoved == this.Board.Boxes[p.y-1][p.x].Piece){   
                                     if (this.LastPieceMoved.Type == "Pawn" &&
                                         this.Board.Boxes[p.y][p.x].Piece == null &&
                                         (this.LastPiecePosition.y == 6 || this.LastPiecePosition.y == 1)){
-                                                
+                                            
                                             this.LastPieceMoved.Move(p.y,p.x);
                                     }
                                 }
@@ -215,9 +218,14 @@ public class PieceListener implements MouseListener {
                             this.Piece.Move(p.y,p.x);
                             this.UpdatePlayerState();
                             this.CleanPaths();
-                            this.evalOpponentCheck();
 
+                            //Special case of promotion (Queen selected by default)
+                            if ((p.y == 7 || p.y == 0) && this.ClickedPanel.Piece.Type == "Pawn"){
+                                this.Promotion();
+                            }
+                            
                             //Post move checks
+                            this.evalOpponentCheck();
                             if (this.OpponentCheck){
                                 this.evalCheckmate();
                             }
@@ -231,16 +239,10 @@ public class PieceListener implements MouseListener {
                                 } 
                             }
                             
-                            //Special case of promotion (Queen selected by default)
-                            if ((p.y == 7 || p.y == 0) && this.ClickedPanel.Piece.Type == "Pawn"){
-                                System.out.println("Promotion!");
-                                this.Promotion();
-                            }
 
                             this.ChoosingMove = false;
                             this.Piece = null;
 
-                            
                             break;
 
                         }
@@ -273,6 +275,7 @@ public class PieceListener implements MouseListener {
                 {   
 
                     //Special case of pawn first movment
+                    
                     if (EnteredPiece.Type == "Pawn"){
                         int Xpos = EnteredPiece.Pos.x;
                         int Ypos = EnteredPiece.Pos.y;
@@ -281,7 +284,7 @@ public class PieceListener implements MouseListener {
                             if (Xpos + 1 < 8){
                                 if (this.Board.Boxes[Ypos][Xpos+1].Piece != null && 
                                 this.Board.Boxes[Ypos][Xpos+1].Piece.Type == "Pawn"){
-                                    
+                                    System.out.println("Derecha");
                                     if (this.Board.Boxes[Ypos][Xpos+1].Piece == this.LastPieceMoved &&
                                         (this.LastPiecePosition.y == 1 || this.LastPiecePosition.y == 6)){
                                         
@@ -299,11 +302,12 @@ public class PieceListener implements MouseListener {
                                     }
                                 }
                             }
-
+                        
+                    
+                    
                             if (Xpos - 1 > 0){
                                 if (this.Board.Boxes[Ypos][Xpos-1].Piece != null && 
                                 this.Board.Boxes[Ypos][Xpos-1].Piece.Type == "Pawn"){
-                                    
                                     if (this.Board.Boxes[Ypos][Xpos-1].Piece == this.LastPieceMoved &&
                                     (this.LastPiecePosition.y == 1 || this.LastPiecePosition.y == 6)){
                                         

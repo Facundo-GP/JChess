@@ -77,8 +77,7 @@ public class Pawn extends Piece {
 
                 //Moves diagonal only if there is a Piece of the oposite Color and is not King
                 else if ((this.Pos.x != p.x && this.Panel[p.y][p.x].Piece != null 
-                    && (this.Panel[p.y][p.x].Piece.Color != this.Color))
-                    || (this.Pos.x != p.x && this.Panel[p.y][p.x].Piece == null && this.SpecialRule)){
+                    && (this.Panel[p.y][p.x].Piece.Color != this.Color))){
                     
                     if (this.Pos.x != p.x && this.Panel[p.y][p.x].Piece != null &&
                        (this.Panel[p.y][p.x].Piece.Color != this.Color) &&
@@ -104,7 +103,6 @@ public class Pawn extends Piece {
             
             }
         }
-        this.SpecialRule = false;
     }
 
     public void ShowMoves(){
@@ -112,7 +110,7 @@ public class Pawn extends Piece {
         this.BuildPriors();
         this.BuildAvailables();
         this.ShowAvailables();
-
+        
     }
 
 
