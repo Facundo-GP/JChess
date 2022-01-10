@@ -14,10 +14,11 @@ public class Piece {
 
     //Color and position of piece
     public String Color;
-    public Point Pos = new Point(0,0);
+    public Point Pos = new Point(-1,-1);
+    public int NumberOfMoves = 0;
     
     //Last positions and last piece killed
-    private Point LastPos = new Point(0,0);
+    private Point LastPos = new Point(-1,-1);
     private Piece LastPieceKilled;
 
     //Image icon, type of piece (Pawn,Rook,etc) and object of piece type
@@ -40,7 +41,7 @@ public class Piece {
 
     //flag saved for special movments for Pawn and King
     public Boolean SpecialRule = false;
-    public Point SpecialRulePos;
+    public ArrayList<Point> SpecialRulePos = new ArrayList<Point>();
 
 
 
@@ -110,7 +111,7 @@ public class Piece {
 
         this.Panel[y][x].Player = this.Player;
         
-        
+        this.NumberOfMoves++;
         this.EraseFrom(this.Panel,this.Pos.y,this.Pos.x);
         this.DrawIn(this.Panel, y, x);
         
@@ -128,7 +129,7 @@ public class Piece {
             this.LastPieceKilled.DrawIn(this.Panel,this.Pos.y,this.Pos.x);
             this.Panel[this.Pos.y][this.Pos.x].Player = this.LastPieceKilled.Player;
         }
-
+        this.NumberOfMoves--;
         this.DrawIn(this.Panel, this.LastPos.y , this.LastPos.x);
     }
 
