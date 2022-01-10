@@ -98,7 +98,9 @@ public class Pawn extends Piece {
 
                 //Special case of Pawn captured for move 2 squares
                 if (this.SpecialRule){
-                    this.AvailableMoves.add(this.SpecialRulePos);
+                    for (Point pt: this.SpecialRulePos){
+                        this.AvailableMoves.add(new Point(pt.y,pt.x));
+                    }
                 }
             
             }
@@ -110,7 +112,7 @@ public class Pawn extends Piece {
         this.BuildPriors();
         this.BuildAvailables();
         this.ShowAvailables();
-        
+
     }
 
 

@@ -40,7 +40,13 @@ public class King extends Piece {
                 }
                 if (p.x == this.Player.OpponentKing.Pos.x && p.y == this.Player.OpponentKing.Pos.y){
                     this.Check = true;
-                }   
+                }
+                
+                if (this.SpecialRule){
+                    for (Point pt: this.SpecialRulePos){
+                        this.AvailableMoves.add(pt);
+                    }
+                }
             }
         }
     }

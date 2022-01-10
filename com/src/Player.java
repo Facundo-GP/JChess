@@ -25,7 +25,7 @@ public class Player extends IconPaths{
     public Piece OpponentKing;
     
     //Player states
-    public Boolean InCheck;
+    public Boolean InCheck = false;
     public String State;
 
 
